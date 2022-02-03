@@ -18,6 +18,13 @@ backgroundLayer5.src = './assets/layer-5.png';
 window.addEventListener('load', function () {
   const slider = document.getElementById('slider');
   slider.value = gameSpeed;
+
+  document.addEventListener('keydown', (e) => {
+    if (e.keyCode === 37) gameSpeed--;
+    if (e.keyCode === 39) gameSpeed++;
+    showGameSpeed.innerHTML = gameSpeed;
+  });
+
   const showGameSpeed = document.getElementById('showGameSpeed');
   showGameSpeed.innerHTML = gameSpeed;
 
