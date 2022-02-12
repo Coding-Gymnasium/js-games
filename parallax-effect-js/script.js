@@ -20,9 +20,10 @@ window.addEventListener('load', function () {
   slider.value = gameSpeed;
 
   document.addEventListener('keydown', (e) => {
-    if (e.keyCode === 37) gameSpeed--;
-    if (e.keyCode === 39) gameSpeed++;
+    if (e.code === 'ArrowLeft') gameSpeed--;
+    if (e.code === 'ArrowRight') gameSpeed++;
     showGameSpeed.innerHTML = gameSpeed;
+    document.getElementById('slider').value = gameSpeed
   });
 
   const showGameSpeed = document.getElementById('showGameSpeed');
