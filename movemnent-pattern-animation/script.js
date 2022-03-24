@@ -18,18 +18,19 @@ class Enemy {
     this.spriteHeight = 177;
     this.width = this.spriteWidth / 2.5;
     this.height = this.spriteHeight / 2.5;
-    this.x = Math.floor(Math.random() * ( canvas.width - this.width ));
-    this.y = Math.floor(Math.random() * ( canvas.height - this.height ));
+    this.x = Math.floor(Math.random() * (canvas.width - this.width));
+    this.y = Math.floor(Math.random() * (canvas.height - this.height));
     this.frame = 0;
-    this.flaspSpeed = Math.floor( Math.random() * 3 + 1 );
+    this.flaspSpeed = Math.floor(Math.random() * 3 + 1);
     // this.angle = Math.random() * 2;
     this.angle = 0;
-    this.angleSpeed = Math.random() * 0.2;
+    this.angleSpeed = Math.random() * 0.9;
     this.curve = Math.random() * 3;
   }
   update() {
-    this.x -= this.speed;
-    this.y += this.curve * Math.sin(this.angle);
+    this.x =
+      100 * Math.sin((this.angle * Math.PI) / 180) +
+      (canvas.width / 2 - this.width);
     this.angle += this.angleSpeed;
     if (this.x + this.width < 0) this.x = canvas.width;
     //animate sprites.
