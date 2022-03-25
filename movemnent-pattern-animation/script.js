@@ -24,9 +24,10 @@ class Enemy {
     this.newY = Math.floor(Math.random() * (canvas.height - this.height));
     this.frame = 0;
     this.flaspSpeed = Math.floor(Math.random() * 3 + 1);
+    this.interval = Math.floor( Math.random() * 200 + 50 );
   }
   update() {
-    if (gameFrame % 150 === 0) {
+    if (gameFrame % this.interval === 0) {
       this.newX = Math.floor(Math.random() * (canvas.width - this.width));
       this.newY = Math.floor(Math.random() * (canvas.height - this.height));
     }
