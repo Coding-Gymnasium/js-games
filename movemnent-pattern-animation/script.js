@@ -20,17 +20,23 @@ class Enemy {
     this.height = this.spriteHeight / 2.5;
     this.x = Math.floor(Math.random() * (canvas.width - this.width));
     this.y = Math.floor(Math.random() * (canvas.height - this.height));
+    this.newX = Math.floor(Math.random() * (canvas.width - this.width));
+    this.newY = Math.floor(Math.random() * (canvas.height - this.height));
     this.frame = 0;
     this.flaspSpeed = Math.floor(Math.random() * 3 + 1);
-    this.angle = 0;
-    this.angleSpeed = Math.random() * 0.9;
-    this.curve = Math.random() * 200;
   }
   update() {
-    this.x =
-      this.curve * Math.sin((this.angle * Math.PI) / 180) +
-      (canvas.width / 2 - this.width/2);
-    this.angle += this.angleSpeed;
+    if (gameFrame % 150 === 0) {
+      this.newX = Math.floor(Math.random() * (canvas.width - this.width));
+      this.newY = Math.floor(Math.random() * (canvas.height - this.height));
+    }
+
+    let dx = this.x - this.newX;
+    let dy = this.y - this.newY;
+
+    this.x -= dx/70;
+    this.y -= dy/70;
+
     if (this.x + this.width < 0) this.x = canvas.width;
     //animate sprites.
     if (gameFrame % this.flaspSpeed === 0) {
