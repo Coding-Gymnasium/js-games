@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 
 const CANVAS_WIDTH = (canvas.width = 500);
 const CANVAS_HEIGHT = (canvas.height = 1000);
-const numberOfEnemies = 20;
+const numberOfEnemies = 5;
 const enemiesArray = [];
 
 let gameFrame = 0;
@@ -24,10 +24,15 @@ class Enemy {
     this.newY = Math.floor(Math.random() * (canvas.height - this.height));
     this.frame = 0;
     this.flaspSpeed = Math.floor(Math.random() * 3 + 1);
-    this.interval = Math.floor( Math.random() * 200 + 50 );
+    this.interval = Math.floor(Math.random() * 100);
   }
   update() {
-    if (gameFrame % this.interval === 0) {
+    canvas.addEventListener('mousemove', (e) => {
+      this.x = e.clientX - 200;
+      this.y = e.clientY - 200;
+    });
+
+    if (gameFrame % 200 === 0) {
       this.newX = Math.floor(Math.random() * (canvas.width - this.width));
       this.newY = Math.floor(Math.random() * (canvas.height - this.height));
     }
@@ -35,8 +40,8 @@ class Enemy {
     let dx = this.x - this.newX;
     let dy = this.y - this.newY;
 
-    this.x -= dx/70;
-    this.y -= dy/70;
+    this.x -= dx / 10;
+    this.y -= dy / 10;
 
     if (this.x + this.width < 0) this.x = canvas.width;
     //animate sprites.
