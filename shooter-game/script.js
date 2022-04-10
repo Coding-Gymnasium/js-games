@@ -3,6 +3,10 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+let timeToNextRaven = 0;
+let ravenInterval = 500;
+let lastTime = 0;
+
 let ravens = [];
 class Raven {
   constructor(){
@@ -12,10 +16,12 @@ class Raven {
     this.y = Math.random() * (canvas.height - this.height);
     this.directionX = Math.random() * 5 + 3;
     this.directionY = Math.random() * 5 - 2.5;
+    this.markForDeletion = false;
   }
 
   update() {
     this.x -= this.directionX;
+    if (this.x < 0 - this.width) this.markForDeletion = true;
   }
   draw() {
     ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -25,8 +31,16 @@ const raven = new Raven();
 
 function animate(timestamp) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  raven.update();
-  raven.draw();
+  let deltatime = timestamp - lastTime;
+  lastTime = timestamp;
+  timeToNextRaven += deltatime;
+  if (timeToNextRaven > ravenInterval) {
+    ravens.push(new Raven());
+    timeToNextRaven = 0;
+  };
+  [...ravens].forEach(object => object.update());
+  [...ravens].forEach(object => object.draw());
+  ravens = ravens.filter(object => !object.markForDeletion);
   requestAnimationFrame(animate);
 }
-animate();
+animate(0);
