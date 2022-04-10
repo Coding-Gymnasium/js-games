@@ -11,6 +11,7 @@ collisionCanvas.width = window.innerWidth;
 collisionCanvas.height = window.innerHeight;
 
 let score = 0;
+let gameOver = false;
 ctx.font = '50px Impact';
 
 let timeToNextRaven = 0;
@@ -64,7 +65,9 @@ class Raven {
       else this.frame++;
       this.timeSinceFlap = 0;
     }
+    if (this.x < 0 - this.width) gameOver = true; // game ends if a bird gets through.
   }
+
   draw() {
     collisionCtx.fillStyle = this.color;
     collisionCtx.fillRect(this.x, this.y, this.width, this.height);
@@ -119,7 +122,7 @@ class Explosion {
       this.spriteWidth,
       this.spriteHeight,
       this.x,
-      this.y - this.size/4,
+      this.y - this.size / 4,
       this.size,
       this.size
     );
@@ -130,6 +133,14 @@ function drawScore() {
   ctx.fillText('Score: ' + score, 55, 80);
   ctx.fillStyle = 'white';
   ctx.fillText('Score: ' + score, 50, 75);
+}
+
+function drawGameOver() {
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'black';
+  ctx.fillText(`GAME OVER, your score is ${score}`, canvas.width/2 + 5, canvas.height/2 + 5);
+  ctx.fillStyle = 'white';
+  ctx.fillText(`GAME OVER, your score is ${score}`, canvas.width/2, canvas.height/2);
 }
 
 window.addEventListener('click', function (e) {
@@ -173,6 +184,7 @@ function animate(timestamp) {
   ravens = ravens.filter((object) => !object.markForDeletion);
   explosions = explosions.filter((object) => !object.markForDeletion);
 
-  requestAnimationFrame(animate);
+  if (!gameOver) requestAnimationFrame(animate);
+  else drawGameOver();
 }
 animate(0);
