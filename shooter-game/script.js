@@ -9,11 +9,12 @@ let lastTime = 0;
 
 let ravens = [];
 class Raven {
-  constructor(){
+  constructor() {
     this.spriteWidth = 271;
     this.spriteHeight = 194;
-    this.width = this.spriteWidth/2;
-    this.height = this.spriteHeight/2;
+    this.sizeModifier = Math.random() * 0.6 + 0.4;
+    this.width = this.spriteWidth * this.sizeModifier;
+    this.height = this.spriteHeight * this.sizeModifier;
     this.x = canvas.width;
     this.y = Math.random() * (canvas.height - this.height);
     this.directionX = Math.random() * 5 + 3;
@@ -21,16 +22,34 @@ class Raven {
     this.markForDeletion = false;
     this.image = new Image();
     this.image.src = './assets/raven.png';
+    this.frame = 0;
+    this.maxFrame = 4;
+    this.timeSinceFlap = 0;
+    this.flapInterval = 100;
   }
 
-  update() {
+  update(deltatime) {
     this.x -= this.directionX;
     if (this.x < 0 - this.width) this.markForDeletion = true;
+    this.timeSinceFlap += deltatime;
+    if (this.timeSinceFlap > this.flapInterval) {
+      if (this.frame > this.maxFrame) this.frame = 0;
+      else this.frame++;
+      this.timeSinceFlap = 0;
+    }
   }
   draw() {
-    // ctx.fillRect(this.x, this.y, this.width, this.height);
-    // ctx.drawImage(this.image, sourcex, sourcey, sourcew, sourceh, this.x, this.y, this.width, this.height)
-    ctx.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height)
+    ctx.drawImage(
+      this.image,
+      this.frame * this.spriteWidth,
+      0,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 }
 const raven = new Raven();
@@ -43,10 +62,10 @@ function animate(timestamp) {
   if (timeToNextRaven > ravenInterval) {
     ravens.push(new Raven());
     timeToNextRaven = 0;
-  };
-  [...ravens].forEach(object => object.update());
-  [...ravens].forEach(object => object.draw());
-  ravens = ravens.filter(object => !object.markForDeletion);
+  }
+  [...ravens].forEach((object) => object.update(deltatime));
+  [...ravens].forEach((object) => object.draw());
+  ravens = ravens.filter((object) => !object.markForDeletion);
   requestAnimationFrame(animate);
 }
 animate(0);
