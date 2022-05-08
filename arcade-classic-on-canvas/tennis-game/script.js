@@ -31,11 +31,17 @@ window.onload = function () {
     drawEverything();
   }, 1000 / framesPerSecond);
 
-  canvas.addEventListener('mousemove', function (e) {
+  canvas.addEventListener("mousemove", function (e) {
     let mousePos = calculateMousePos(e);
     paddle1Y = mousePos.y - paddleHeight / 2;
-  })
+  });
 };
+
+function ballReset() {
+  ballSpeedX = -1 * ballSpeedX;
+  ballX = canvas.width / 2;
+  ballY = canvas.height / 2;
+}
 
 function moveEverything() {
   ballX = ballX + ballSpeedX;
@@ -45,7 +51,7 @@ function moveEverything() {
     ballSpeedX = -1 * ballSpeedX;
   }
   if (ballX < 0) {
-    ballSpeedX = -1 * ballSpeedX;
+    ballReset();
   }
 
   if (ballY > canvas.height) {
