@@ -24,10 +24,12 @@ function moveEverything() {
 }
 
 function drawEverything() {
-  canvasContext.fillStyle = "black";
-  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-  canvasContext.fillStyle = "white";
-  canvasContext.fillRect(0, canvas.height / 2 - 20, 10, 100); // centered on the screen
-  canvasContext.fillStyle = "yellowgreen";
-  canvasContext.fillRect(ballX, 100, 10, 10);
+  colorRect(0,0,canvas.width, canvas.height, 'black')
+  colorRect(ballX, 100, 10, 10, 'yellowgreen')
+  colorRect(5, canvas.height / 2 - 50, 10, 100, 'white')
+}
+
+function colorRect(leftX, topY, width, height, drawColor) {
+  canvasContext.fillStyle = drawColor;
+  canvasContext.fillRect(leftX, topY, width, height);
 }
