@@ -5,19 +5,24 @@ let ballX = 50;
 window.onload = function () {
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext("2d");
-  setInterval(drawEverything, 1000);
+  let framesPerSecond = 30;
+  setInterval(() => {
+    moveEverything();
+    drawEverything();
+  }, 1000/framesPerSecond);
 };
 
-function drawEverything() {
-  ballX = ballX + 10;
+function moveEverything() {
+  ballX = ballX + 5;
+}
 
-  console.log(ballX)
+function drawEverything() {
   canvasContext.fillStyle = "black";
   canvasContext.fillRect(0, 0, canvas.width, canvas.height);
   canvasContext.fillStyle = "green";
   canvasContext.fillRect(200, 200, 50, 25);
   canvasContext.fillStyle = "white";
-  canvasContext.fillRect(canvas.width /2 - 20 , canvas.height / 2 - 20 , 40, 40); // centered on the screen
+  canvasContext.fillRect(0 , canvas.height / 2 - 20 , 10, 100); // centered on the screen
   canvasContext.fillStyle = "red";
-  canvasContext.fillRect(50, 300, ballX, 50); // the red box overlaps the white one because it was 'drawn' later
+  canvasContext.fillRect(ballX, 100, 10, 10);
 }
