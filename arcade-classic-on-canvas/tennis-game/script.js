@@ -54,6 +54,10 @@ function moveEverything() {
     ballReset();
   }
 
+  if (ballX < 15 && ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+    ballSpeedX = -1 * ballSpeedX;
+  }
+
   if (ballY > canvas.height) {
     ballSpeedY = -1 * ballSpeedY;
   }
