@@ -8,6 +8,7 @@ let radius = 5;
 let paddle1Y;
 let paddle2Y;
 const paddleHeight = 100;
+const paddleThickness = 10;
 
 function calculateMousePos(e) {
   let rect = canvas.getBoundingClientRect();
@@ -24,8 +25,9 @@ window.onload = function () {
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext("2d");
   let framesPerSecond = 30;
-  // paddle1Y = canvas.height / 2 - 50;
+  paddle1Y = canvas.height / 2 - 50;
   paddle2Y = canvas.height / 2 - paddleHeight / 2;
+
   setInterval(() => {
     moveEverything();
     drawEverything();
@@ -43,19 +45,29 @@ function ballReset() {
   ballY = canvas.height / 2;
 }
 
+function computerMovement() {
+  if(paddle2Y < ballY) {
+    paddle2Y += 6;
+  } else {
+    paddle2Y -= 6;
+  } 
+}
+
 function moveEverything() {
-  ballX = ballX + ballSpeedX;
-  ballY = ballY + ballSpeedY;
+  computerMovement();
+
+  ballX += ballSpeedX;
+  ballY += ballSpeedY;
 
   if (ballX < 0 || ballX > canvas.width) {
     ballReset();
   }
 
-  if (ballX < 15 && ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+  if (ballX < paddleThickness + 5 && ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
     ballSpeedX = -1 * ballSpeedX;
   }
 
-  if (ballX > canvas.width - 15 && ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
+  if (ballX > canvas.width - ( paddleThickness + 5 ) && ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
     ballSpeedX = -1 * ballSpeedX;
   }
 
@@ -71,8 +83,8 @@ function moveEverything() {
 function drawEverything() {
   colorRect(0, 0, canvas.width, canvas.height, "black");
   colorCircle(ballX, ballY, radius, "yellowgreen");
-  colorRect(5, paddle1Y, 10, paddleHeight, "white");
-  colorRect(canvas.width - 15, paddle2Y, 10, paddleHeight, "white");
+  colorRect(5, paddle1Y, paddleThickness, paddleHeight, "white");
+  colorRect(canvas.width - 15, paddle2Y, paddleThickness, paddleHeight, "white");
 }
 
 function colorRect(leftX, topY, width, height, drawColor) {
