@@ -1,10 +1,17 @@
 let canvas;
 let canvasContext;
+let ballX = 50;
 
 window.onload = function () {
-  console.log("hola");
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext("2d");
+  setInterval(drawEverything, 1000);
+};
+
+function drawEverything() {
+  ballX = ballX + 10;
+
+  console.log(ballX)
   canvasContext.fillStyle = "black";
   canvasContext.fillRect(0, 0, canvas.width, canvas.height);
   canvasContext.fillStyle = "green";
@@ -12,5 +19,5 @@ window.onload = function () {
   canvasContext.fillStyle = "white";
   canvasContext.fillRect(canvas.width /2 - 20 , canvas.height / 2 - 20 , 40, 40); // centered on the screen
   canvasContext.fillStyle = "red";
-  canvasContext.fillRect(350, 300, 50, 35); // the red box overlaps the white one because it was 'drawn' later
-};
+  canvasContext.fillRect(ballX, 300, 50, 50); // the red box overlaps the white one because it was 'drawn' later
+}
