@@ -19,5 +19,5 @@ function drawEverything() {
   canvasContext.fillStyle = "white";
   canvasContext.fillRect(canvas.width /2 - 20 , canvas.height / 2 - 20 , 40, 40); // centered on the screen
   canvasContext.fillStyle = "red";
-  canvasContext.fillRect(ballX, 300, 50, 50); // the red box overlaps the white one because it was 'drawn' later
+  canvasContext.fillRect(50, 300, ballX, 50); // the red box overlaps the white one because it was 'drawn' later
 }
