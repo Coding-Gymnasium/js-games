@@ -46,7 +46,8 @@ function ballReset() {
 }
 
 function computerMovement() {
-  if(paddle2Y < ballY) {
+  let paddle2YCenter = paddle2Y + (paddleHeight/2);
+  if(paddle2YCenter < ballY) {
     paddle2Y += 6;
   } else {
     paddle2Y -= 6;
