@@ -26,6 +26,7 @@ function calculateMousePos(e) {
 window.onload = function () {
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext("2d");
+  canvasContext.font = 'bold 48px serif';
   let framesPerSecond = 30;
   paddle1Y = canvas.height / 2 - 50;
   paddle2Y = canvas.height / 2 - paddleHeight / 2;
