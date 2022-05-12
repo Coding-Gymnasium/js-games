@@ -11,7 +11,10 @@ const paddleHeight = 100;
 const paddleThickness = 10;
 let player1Score = 0;
 let player2Score = 0;
-const winningScore = 3;
+
+const winningScore = 1;
+
+let showingWinScreen = false;
 
 function calculateMousePos(e) {
   let rect = canvas.getBoundingClientRect();
@@ -24,10 +27,17 @@ function calculateMousePos(e) {
   };
 }
 
+function handleMouseClick() {
+  if (showingWinScreen) {
+    player1Score = 0;
+    player1Score = 0;
+    showingWinScreen = false;
+  }
+}
 window.onload = function () {
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext("2d");
-  canvasContext.font = 'bold 48px serif';
+  canvasContext.font = "bold 48px serif";
   let framesPerSecond = 30;
   paddle1Y = canvas.height / 2 - 50;
   paddle2Y = canvas.height / 2 - paddleHeight / 2;
@@ -36,6 +46,8 @@ window.onload = function () {
     moveEverything();
     drawEverything();
   }, 1000 / framesPerSecond);
+
+  canvas.addEventListener("mousedown", handleMouseClick);
 
   canvas.addEventListener("mousemove", function (e) {
     let mousePos = calculateMousePos(e);
@@ -47,6 +59,7 @@ function ballReset() {
   if (player1Score >= winningScore || player2Score >= winningScore) {
     player1Score = 0;
     player2Score = 0;
+    showingWinScreen = true;
   }
   ballSpeedX = -1 * ballSpeedX;
   ballX = canvas.width / 2;
@@ -63,6 +76,8 @@ function computerMovement() {
 }
 
 function moveEverything() {
+  if (showingWinScreen) return;
+
   computerMovement();
 
   ballX += ballSpeedX;
@@ -84,9 +99,8 @@ function moveEverything() {
   ) {
     ballSpeedX = -1 * ballSpeedX;
 
-    let deltaY = ballY - (paddle1Y+paddleHeight/2);
+    let deltaY = ballY - (paddle1Y + paddleHeight / 2);
     ballSpeedY = deltaY * 0.35;
-
   }
 
   if (
@@ -96,9 +110,8 @@ function moveEverything() {
   ) {
     ballSpeedX = -1 * ballSpeedX;
 
-    let deltaY = ballY - (paddle2Y+paddleHeight/2);
+    let deltaY = ballY - (paddle2Y + paddleHeight / 2);
     ballSpeedY = deltaY * 0.35;
-
   }
 
   if (ballY > canvas.height) {
@@ -112,6 +125,17 @@ function moveEverything() {
 
 function drawEverything() {
   colorRect(0, 0, canvas.width, canvas.height, "black");
+
+  if (showingWinScreen) {
+    canvasContext.fillStyle = "white";
+    canvasContext.fillText(
+      "click to continue",
+      canvas.width / 2 - 150,
+      canvas.height / 2
+    );
+    return;
+  }
+
   colorCircle(ballX, ballY, radius, "yellowgreen");
   colorRect(5, paddle1Y, paddleThickness, paddleHeight, "white");
   colorRect(
