@@ -57,8 +57,6 @@ window.onload = function () {
 
 function ballReset() {
   if (player1Score >= winningScore || player2Score >= winningScore) {
-    player1Score = 0;
-    player2Score = 0;
     showingWinScreen = true;
   }
   ballSpeedX = -1 * ballSpeedX;
@@ -123,11 +121,19 @@ function moveEverything() {
   }
 }
 
+function drawNet() {
+  for (let i = 0; i < canvas.height; i+=40) {
+    colorRect(canvas.width/2-1, i, 2, 20, 'white')
+  }
+}
+
 function drawEverything() {
   colorRect(0, 0, canvas.width, canvas.height, "black");
 
   if (showingWinScreen) {
     canvasContext.fillStyle = "white";
+    if (player1Score >= winningScore) canvasContext.fillText("Left Player Won", canvas.width / 2 - 150, 200);
+    if (player2Score >= winningScore) canvasContext.fillText("Right Player Won", canvas.width / 2 - 150, 200)
     canvasContext.fillText(
       "click to continue",
       canvas.width / 2 - 150,
@@ -136,6 +142,7 @@ function drawEverything() {
     return;
   }
 
+  drawNet();
   colorCircle(ballX, ballY, radius, "yellowgreen");
   colorRect(5, paddle1Y, paddleThickness, paddleHeight, "white");
   colorRect(
