@@ -4,7 +4,7 @@ let ballX = 50;
 let ballY = 50;
 let ballSpeedX = 10;
 let ballSpeedY = 5;
-let radius = 5;
+let radius = 8;
 let paddle1Y;
 let paddle2Y;
 const paddleHeight = 100;
@@ -78,6 +78,10 @@ function moveEverything() {
     ballY < paddle1Y + paddleHeight
   ) {
     ballSpeedX = -1 * ballSpeedX;
+
+    let deltaY = ballY - (paddle1Y+paddleHeight/2);
+    ballSpeedY = deltaY * 0.35;
+
   }
 
   if (
@@ -86,6 +90,10 @@ function moveEverything() {
     ballY < paddle2Y + paddleHeight
   ) {
     ballSpeedX = -1 * ballSpeedX;
+
+    let deltaY = ballY - (paddle2Y+paddleHeight/2);
+    ballSpeedY = deltaY * 0.35;
+
   }
 
   if (ballY > canvas.height) {
